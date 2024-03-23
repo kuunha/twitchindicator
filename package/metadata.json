@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "markovs.i.mail@gmail.com",
+                "Name": "Sergei Markov"
+            }
+        ],
+        "Category": "Multimedia",
+        "Description": "Displays a list of live channels you're following on Twitch",
+        "Icon": "globe",
+        "Id": "org.github.komorebi.twitchindicator",
+        "License": "WTFPL",
+        "Name": "Twitch Indicator",
+        "Version": "0.6.1",
+        "Website": "https://github.com/komorebithrowsatable/twitchindicator"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml"
+}

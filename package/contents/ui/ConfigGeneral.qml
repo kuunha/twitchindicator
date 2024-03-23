@@ -1,11 +1,8 @@
-import QtQuick 2.0
-import QtQuick.Window 2.2
-import QtWebEngine 1.10
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
+import QtQuick
+import QtQuick.Window
+import QtWebEngine
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: generalSettings
@@ -67,10 +64,12 @@ Item {
 		    }
 		    SpinBox {
 			    id: updateTime
-			    minimumValue: 1
+			    from: 1
 			    stepSize: 1
-			    maximumValue: 60
-			    suffix: "min"
+			    to: 60
+			    textFromValue: (value, locale) => {
+                    return value + " min";
+                }
 		    }
 	    }
     }

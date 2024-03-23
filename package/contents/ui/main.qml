@@ -1,18 +1,17 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Window 2.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import org.kde.kirigami as Kirigami
 
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
+import org.kde.plasma.plasmoid
+import org.kde.plasma.components 3.0 as PlasmaComponents3
+import org.kde.plasma.extras as PlasmaExtras
 
-Item {
+PlasmoidItem {
     id: root
 
-    Plasmoid.switchWidth: units.gridUnit * 10
-    Plasmoid.switchHeight: units.gridUnit * 5
+    switchWidth: Kirigami.Units.gridUnit * 10
+    switchHeight: Kirigami.Units.gridUnit * 5
 
     property int updateInterval: plasmoid.configuration.updateInterval
     property string twitchToken: plasmoid.configuration.twitchToken
@@ -96,17 +95,17 @@ Item {
     }
     
     
-    Plasmoid.compactRepresentation: MouseArea {
+    compactRepresentation: MouseArea {
         Layout.preferredWidth: intRow.implicitWidth
         Layout.minimumWidth: intRow.implicitWidth
         Layout.preferredHeight: 32
-        onClicked: plasmoid.expanded = !plasmoid.expanded;
+        onClicked: root.expanded = !root.expanded;
 
         Row {
             id: intRow
             anchors.fill: parent
             spacing: 4
-            anchors.margins: units.gridUnit*0.2
+            anchors.margins: Kirigami.Units.gridUnit*0.2
 
             Image {
                 id: mainIcon
@@ -117,17 +116,17 @@ Item {
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
             }
 
-            PlasmaComponents.Label {
+            PlasmaComponents3.Label {
                 id: mainCounter
                 anchors.verticalCenter: parent.verticalCenter
                 height: parent.height
                 text: streamsModel.count
                 fontSizeMode: Text.VerticalFit
                 font.pixelSize: 300
-                minimumPointSize: theme.smallestFont.pointSize
+                minimumPointSize: Kirigami.Theme.smallFont.pointSize
                 horizontalAlignment: Text.AlignHCenter
                 opacity: (streamsModel.count==0) ? 0.4 : 1
-                width: contentWidth+(units.gridUnit*0.1)
+                width: contentWidth+(Kirigami.Units.gridUnit*0.1)
                 smooth: true
                 wrapMode: Text.NoWrap
                 
@@ -135,22 +134,23 @@ Item {
         }
     }
 
-    Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
+    preferredRepresentation: compactRepresentation
     
-    Plasmoid.fullRepresentation: Item {
-        Layout.preferredWidth: units.gridUnit * 30
+    fullRepresentation: Item {
+        Layout.preferredWidth: Kirigami.Units.gridUnit * 30
         Layout.preferredHeight: Screen.height * 0.45
 
         Component {
                 id: streamDelegate
-                PlasmaComponents.ListItem {
+                PlasmaComponents3.ItemDelegate {
                     id: streamItem
-                    height: units.gridUnit * 2.8
+                    height: Kirigami.Units.gridUnit * 2.8
                     width: parent.width
                     enabled: true
-                    onContainsMouseChanged: {
-                        steamsList.currentIndex = (containsMouse) ? index : -1;
-                    }
+                    // Cannot assign to non-existent property "onContainsMouseChanged"
+                    // onContainsMouseChanged: {
+                    //     steamsList.currentIndex = (containsMouse) ? index : -1;
+                    // }
                     onClicked: {
                         Qt.openUrlExternally("https://www.twitch.tv/"+streamsModel.followedChannels[model.user_id].login)
                     }
@@ -160,7 +160,7 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.left: parent.left
-                        anchors.leftMargin: units.smallSpacing
+                        anchors.leftMargin: Kirigami.Units.smallSpacing
                         width: height
                         source: streamsModel.followedChannels[model.user_id].profile_image_url
                         fillMode: Image.PreserveAspectCrop
@@ -182,20 +182,20 @@ Item {
                         anchors.left: channelIcon.right
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        anchors.leftMargin: units.largeSpacing
+                        anchors.leftMargin: Kirigami.Units.largeSpacing
                         height: parent.height/2
 
-                        PlasmaComponents.Label {
+                        PlasmaComponents3.Label {
                             id: viewersCount
                             anchors.right: parent.right
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
-                            anchors.rightMargin: units.smallSpacing
+                            anchors.rightMargin: Kirigami.Units.smallSpacing
                             width: implicitWidth
                             text: model.viewer_count
                         }
 
-                        PlasmaComponents.Label {
+                        PlasmaComponents3.Label {
                             id: channelName
                             text: model.user_name
                             elide: Text.ElideRight
@@ -204,17 +204,17 @@ Item {
                             anchors.bottom: parent.bottom 
                         }
 
-                        PlasmaCore.IconItem {
+                        Kirigami.Icon {
                             id: gameIcon
                             source: "media-playback-start"
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             width: height
                             anchors.left: channelName.right
-                            anchors.leftMargin: units.largeSpacing
+                            anchors.leftMargin: Kirigami.Units.largeSpacing
                         }
 
-                        PlasmaComponents.Label {
+                        PlasmaComponents3.Label {
                             id: gameName
                             text: model.game_name
                             elide: Text.ElideRight
@@ -222,16 +222,16 @@ Item {
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             anchors.right: viewersCount.left
-                            anchors.leftMargin: units.smallSpacing
+                            anchors.leftMargin: Kirigami.Units.smallSpacing
                         }
                     }
 
-                    PlasmaComponents.Label {
+                    PlasmaComponents3.Label {
                         id: streamName
                         anchors.top: channelHeader.bottom
                         anchors.left: channelIcon.right
-                        anchors.leftMargin: units.largeSpacing
-                        anchors.rightMargin: units.smallSpacing
+                        anchors.leftMargin: Kirigami.Units.largeSpacing
+                        anchors.rightMargin: Kirigami.Units.smallSpacing
                         anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         text: model.title
@@ -241,7 +241,7 @@ Item {
                 }
             }
 
-        PlasmaExtras.ScrollArea {
+        PlasmaComponents3.ScrollView {
             anchors.fill: parent
 
             ListView {
@@ -250,7 +250,8 @@ Item {
                 delegate: streamDelegate
                 model: streamsModel
                 anchors.fill: parent
-                highlight: PlasmaComponents.Highlight { }
+                // PlasmaComponents3.Highlight is not a type
+                // highlight: PlasmaComponents3.Highlight { }
             }
         }
         
