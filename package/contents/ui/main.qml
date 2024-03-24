@@ -94,7 +94,6 @@ PlasmoidItem {
         }
     }
     
-    
     compactRepresentation: MouseArea {
         Layout.preferredWidth: intRow.implicitWidth
         Layout.minimumWidth: intRow.implicitWidth
@@ -105,24 +104,23 @@ PlasmoidItem {
             id: intRow
             anchors.fill: parent
             spacing: 4
-            anchors.margins: Kirigami.Units.gridUnit*0.2
-
+            anchors.margins: Kirigami.Units.gridUnit*0.3
+            anchors.centerIn: parent
             Image {
                 id: mainIcon
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 width: height
-                source: "../images/twitch.png"
+                source: "../images/twitch.svg"
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
             }
 
             PlasmaComponents3.Label {
                 id: mainCounter
                 anchors.verticalCenter: parent.verticalCenter
-                height: parent.height
                 text: streamsModel.count
-                fontSizeMode: Text.VerticalFit
-                font.pixelSize: 300
+                font.pixelSize: 20
                 minimumPointSize: Kirigami.Theme.smallFont.pointSize
                 horizontalAlignment: Text.AlignHCenter
                 opacity: (streamsModel.count==0) ? 0.4 : 1
@@ -251,8 +249,7 @@ PlasmoidItem {
                 model: streamsModel
                 spacing: Kirigami.Units.smallSpacing
                 anchors.fill: parent
-                // PlasmaComponents3.Highlight is not a type
-                // highlight: PlasmaComponents3.Highlight { }
+                // highlight: PlasmaExtras.Highlight { }
             }
         }
         
