@@ -104,13 +104,12 @@ PlasmoidItem {
             id: intRow
             anchors.fill: parent
             spacing: 4
-            anchors.margins: Kirigami.Units.gridUnit*0.3
+            anchors.margins: Kirigami.Units.gridUnit*0.2
             anchors.centerIn: parent
             Image {
                 id: mainIcon
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
                 anchors.verticalCenter: parent.verticalCenter
+                height: 23
                 width: height
                 source: "../images/twitch.svg"
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
