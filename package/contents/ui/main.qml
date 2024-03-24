@@ -249,6 +249,7 @@ PlasmoidItem {
                 currentIndex: -1
                 delegate: streamDelegate
                 model: streamsModel
+                spacing: Kirigami.Units.smallSpacing
                 anchors.fill: parent
                 // PlasmaComponents3.Highlight is not a type
                 // highlight: PlasmaComponents3.Highlight { }
