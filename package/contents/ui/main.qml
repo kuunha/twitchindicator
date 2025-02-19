@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import org.kde.kirigami as Kirigami
 
 import org.kde.plasma.plasmoid
@@ -161,17 +161,32 @@ PlasmoidItem {
                         width: height
                         source: streamsModel.followedChannels[model.user_id].profile_image_url
                         fillMode: Image.PreserveAspectCrop
-                        layer.enabled: true
-                        layer.effect: OpacityMask {
-                            maskSource: roundedMask
-                        }
+                        visible: false
                     }
 
-                    Rectangle {
-                        id: roundedMask
+                    MultiEffect {
+                        source: channelIcon
                         anchors.fill: channelIcon
-                        radius: 90
+                        maskEnabled: true
+                        maskSource: roundedMask
+                        maskThresholdMin: 0.5
+                        maskSpreadAtMin: 1.0
+                    }
+
+                    Item {
+                        id: roundedMask
+                        width: channelIcon.width
+                        height: channelIcon.height
+                        layer.enabled: true
+                        layer.smooth: true
                         visible: false
+
+                        Rectangle {
+                            width: channelIcon.width
+                            height: channelIcon.height
+                            radius: width/2
+                            color: "black"
+                        }
                     }
 
                     Item {
