@@ -21,6 +21,7 @@ Item {
             id: webView
             anchors.fill: parent
             profile: WebEngineProfile {
+                httpAcceptLanguage : "en"
                 offTheRecord: true
             }
             onUrlChanged: {
