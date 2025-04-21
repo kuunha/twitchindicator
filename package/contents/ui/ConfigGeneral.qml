@@ -9,6 +9,8 @@ Item {
 
     property alias cfg_updateInterval: updateTime.value
     property alias cfg_twitchToken: authFlow.cfg_twitchToken
+    property alias cfg_customCommand: tf_customCommand.text
+    property alias cfg_enableCustomCommand: cb_enableCustomCommand.checked
 
     Window {
         id: authFlow
@@ -73,5 +75,22 @@ Item {
                 }
 		    }
 	    }
+
+        RowLayout {
+            CheckBox {
+                id: cb_enableCustomCommand
+                text: "Send url to custom command bellow:"
+                checked: true
+            }
+        }
+
+        RowLayout {
+            TextField {
+                id: tf_customCommand
+                placeholderText: "Examples: mpv, vlc, firefox -p 'profile'"
+                Layout.fillWidth: true
+            }
+
+        }
     }
 }

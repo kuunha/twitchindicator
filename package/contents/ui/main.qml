@@ -7,6 +7,8 @@ import org.kde.plasma.plasmoid
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.plasma.extras as PlasmaExtras
 
+import org.kde.plasma.plasma5support as Plasma5Support
+
 PlasmoidItem {
     id: root
 
@@ -15,6 +17,8 @@ PlasmoidItem {
 
     property int updateInterval: plasmoid.configuration.updateInterval
     property string twitchToken: plasmoid.configuration.twitchToken
+    property bool enableCustomCommand: plasmoid.configuration.enableCustomCommand
+    property string customCommand: plasmoid.configuration.customCommand
 
     function log(message, values) {
         console.log(message);
@@ -63,7 +67,7 @@ PlasmoidItem {
     ListModel {
         id: streamsModel
         property var followedChannels: {}
-        
+
         function updateChannelsData() {     //TODO: add support of more than 100 follows/channels
             streamsModel.followedChannels = {};
             console.log("Starting update");
@@ -93,7 +97,7 @@ PlasmoidItem {
             })
         }
     }
-    
+
     compactRepresentation: MouseArea {
         Layout.preferredWidth: intRow.implicitWidth
         Layout.minimumWidth: intRow.implicitWidth
@@ -109,7 +113,7 @@ PlasmoidItem {
             Image {
                 id: mainIcon
                 anchors.verticalCenter: parent.verticalCenter
-                height: 23
+                height: 22
                 width: height
                 source: "../images/twitch.svg"
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
@@ -132,7 +136,7 @@ PlasmoidItem {
     }
 
     preferredRepresentation: compactRepresentation
-    
+
     fullRepresentation: Item {
         Layout.preferredWidth: Kirigami.Units.gridUnit * 30
         Layout.preferredHeight: Screen.height * 0.45
@@ -149,9 +153,14 @@ PlasmoidItem {
                     //     steamsList.currentIndex = (containsMouse) ? index : -1;
                     // }
                     onClicked: {
-                        Qt.openUrlExternally("https://www.twitch.tv/"+streamsModel.followedChannels[model.user_id].login)
+                        if (enableCustomCommand == true && customCommand != "") {
+                            executable.openExternalCommand(customCommand + " " + "https://www.twitch.tv/"+streamsModel.followedChannels[model.user_id].login)
+                        }
+                        else {
+                            Qt.openUrlExternally("https://www.twitch.tv/"+streamsModel.followedChannels[model.user_id].login)
+                        }
                     }
-            
+
                     Image {
                         id: channelIcon
                         anchors.top: parent.top
@@ -266,7 +275,7 @@ PlasmoidItem {
                 // highlight: PlasmaExtras.Highlight { }
             }
         }
-        
+
     }
 
     Timer {
@@ -290,5 +299,18 @@ PlasmoidItem {
 
     Component.onCompleted: {
         streamsModel.updateChannelsData();
+    }
+
+    Plasma5Support.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: []
+        onNewData: function(source, data) {
+            disconnectSource(source)
+        }
+
+        function openExternalCommand(cmd) {
+            executable.connectSource(cmd)
+        }
     }
 }
