@@ -69,11 +69,12 @@ Item {
 			    id: updateTime
 			    from: 1
 			    stepSize: 1
-			    to: 60
-			    textFromValue: (value, locale) => {
-                    return value + " min";
-                }
+			    to: 990
 		    }
+            Label {
+                id: min
+                text: "minutes"
+            }
 	    }
 
         RowLayout {

@@ -4,7 +4,7 @@
 	<group name="General">
 		<entry name="updateInterval" type="Int">
 			<default>10</default>
-			<min>20</min>
+			<min>1</min>
       		<max>990</max>
 		</entry>
         <entry name="twitchToken" type="String">
