@@ -115,7 +115,9 @@ PlasmoidItem {
                 anchors.verticalCenter: parent.verticalCenter
                 height: 22
                 width: height
-                source: "../images/twitch.svg"
+                source: Kirigami.Theme.textColor.hslLightness < 0.5
+                ? Qt.resolvedUrl("../images/twitch-light.svg")
+                : Qt.resolvedUrl("../images/twitch-dark.svg")
                 opacity: (streamsModel.count==0) ? 0.4 : 0.8
             }
 
